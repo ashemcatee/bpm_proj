@@ -1,5 +1,6 @@
 import React from 'react';
 import "./App.css";
+import SongEntry from "./songcontroller.jsx"
 // import { useSelector } from 'react-redux';
 
 
@@ -14,6 +15,9 @@ const Submission = () => {
         <div className="container">
         <div className="outerBox">
           <h1 id="header">Music Submission</h1>
+          <div>
+            <SongEntry />
+          </div>
         </div>
       </div>
       )

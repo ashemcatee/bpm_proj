@@ -1,13 +1,21 @@
 import React from "react";
 import "./App.css";
 import Submission from "./handlesubmission.jsx";
+import { useState, useEffect } from "react";
 // import handleSubmission from "/handleSubmission"
 const App = () => {
+    const [message, setMessage] = useState("");
+
+    useEffect(() => {
+      fetch("http://localhost:8000/message")
+        .then((res) => res.json())
+        .then((data) => setMessage(data.message));
+    }, []);
 return (
 	<div>
-	<h1 className="heading">BPM Matcher</h1>
+	<h1 className="heading">{message}</h1>
 	<h4 className="sub-heading">
-		Efficiently find music to match your tastes
+		Efficiently find music to match your tastes 
         <div>
         <Submission />
         </div>

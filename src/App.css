@@ -1,9 +1,23 @@
 /* stylings for App component */
 .heading,.sub-heading{
-	color:green;
+	color:rgb(255, 78, 187);
 	text-align: center;
 }
 .Container {
-    color:red;
+    color:rgb(236, 170, 170);
     font-size: 25;
+}
+#results {
+    font-size: 2rem;
+    color: black;
+    
+}
+#submission{
+    color:cyan;
+    background-color: rgb(11, 80, 184);
+}
+#submission:hover{
+    background-color: rgb(235, 119, 119);
+    transition:ease-out .25s;
+    transform:translateY(-2px)
 }

@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createAction } from '@reduxjs/toolkit';
 import { useState, useEffect } from 'react'
 import axios from 'axios';
+import "./App.css";
+
 
 const SongEntry = () => {
     const [music, setSong] = useState({})
@@ -30,8 +32,8 @@ const SongEntry = () => {
        try {
         await axios
         .post('http://localhost:8000/', currentSong)
-        .then(() => console.log('Song created'))
-        }
+        .then((data) => console.log('data is: ', 'as'))
+       }
         catch(error){
             console.log(error);
         }
@@ -39,6 +41,8 @@ const SongEntry = () => {
         return false;
 
     }
+    
+     
    return (
    <div>
     <form onSubmit={handleSubmit} id="songForm">
@@ -46,7 +50,10 @@ const SongEntry = () => {
         <br></br>
        <br></br>
        Artist Name <input type="text" id="artistInput" onChange={handleArtistText}></input>
-       <button type="submit">Submit</button>
+       <button type="submit" id="submission">Submit</button>
+       <div id="results">Results:
+        {/* {results[0]} */}
+       </div>
        {/* <br></br>
        <button onClick={clickFunction()}>Submit</button> */}
     </form>

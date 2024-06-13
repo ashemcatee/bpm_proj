@@ -33,28 +33,28 @@ const getAuth = async () => {
   }
 }
 
-const getTrack = async (track_name) =>{
-  const access_token = await getAuth();
-  const api_url= `https://api.spotify.com/v1/search/?q=${track_name}&type=track`;
-  try {
-    const response = await axios.get(api_url, {
-      headers: {
-      'Authorization': `Bearer ${access_token}`
-      }
-    });
-    console.log('data', response.data.tracks.items[0].artists[0].name)
-    for (let item of response.data.tracks.items){
-      if(item.artists[0].name === 'Green Day'){
-        console.log('songs matching =', item, 'with artist: ', item.artists[0].name)
-      }
-    }
-    return response.data;
-  }catch(error){
-    console.log('gettrack error', error);
-  }
-}
+// const getTrack = async (track_name) =>{
+//   const access_token = await getAuth();
+//   const api_url= `https://api.spotify.com/v1/search/?q=%20${track_name}&type=track`;
+//   try {
+//     const response = await axios.get(api_url, {
+//       headers: {
+//       'Authorization': `Bearer ${access_token}`
+//       }
+//     });
+//     console.log('data', response.data.tracks.items[0].artists[0].name)
+//     for (let item of response.data.tracks.items){
+//       if(item.artists[0].name === 'Green Day'){
+//         console.log('songs matching =', item, 'with artist: ', item.artists[0].name)
+//       }
+//     }
+//     return response.data;
+//   }catch(error){
+//     console.log('gettrack error', error);
+//   }
+// }
 
-console.log(getTrack('holiday'))
+// console.log(getTrack('holiday'))
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
@@ -85,14 +85,35 @@ app.use(cors())
 // });
 
 app.post('/', function(req,res){
+  
   const newMusic = {
     song: req.body.song,
     artist: req.body.artist
   }
-  console.log('id', client_id)
-  console.log('secret', client_secret)
-  console.log('serverf says new music is: ', newMusic)
-  res.json()
+  const trackName = newMusic.song;
+  const artistName = newMusic.artist;
+  const getTrack = async (track_name, artist_name) =>{
+    const access_token = await getAuth();
+    const api_url= `https://api.spotify.com/v1/search/?q=%20${track_name}&type=track`;
+    try {
+      const response = await axios.get(api_url, {
+        headers: {
+        'Authorization': `Bearer ${access_token}`
+        }
+      });
+      console.log('data', response.data.tracks.items[0].artists[0].name)
+      for (let item of response.data.tracks.items){
+        if(item.artists[0].name === artist_name){
+          console.log('songs matching =', item.name, 'with artist: ', item.artists[0].name)
+        }
+      }
+      return response.data;
+    }catch(error){
+      console.log('gettrack error', error);
+    }
+  }
+  getTrack(trackName, artistName)
+  res.end();
 });
 
 // app.post('/', function(req,res){
@@ -106,7 +127,7 @@ app.post('/', function(req,res){
 
 app.get('/', function(req, res){
     // res.sendFile(path.join(__dirname, 'build', 'index.html'))
-    res.json({message: "hello from server"})
+    res.json({message: "Server Workin Hard"})
 })
 
 

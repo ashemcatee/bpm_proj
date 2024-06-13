@@ -2,12 +2,16 @@ import React from "react";
 import "./App.css";
 import Submission from "./handlesubmission.jsx";
 import { useState, useEffect } from "react";
+
+
+
+
 // import handleSubmission from "/handleSubmission"
 const App = () => {
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-      fetch("http://localhost:8000/message")
+      fetch("http://localhost:8000/")
         .then((res) => res.json())
         .then((data) => setMessage(data.message));
     }, []);

@@ -24,7 +24,7 @@ const getAuth = async () => {
       }
     })
     //return access token
-    console.log('the response: ', response)
+    // console.log('the response: ', response)
     return response.data.access_token;
     //console.log(response.data.access_token);   
   }catch(error){
@@ -84,7 +84,7 @@ app.use(cors())
 //   }
 // });
 
-app.post('/', function(req,res){
+app.post('/', async (req,res)=>{
   
   const newMusic = {
     song: req.body.song,
@@ -96,6 +96,7 @@ app.post('/', function(req,res){
     const access_token = await getAuth();
     const api_url= `https://api.spotify.com/v1/search/?q=%20${track_name}&type=track`;
     try {
+      const musicLog = []
       const response = await axios.get(api_url, {
         headers: {
         'Authorization': `Bearer ${access_token}`
@@ -104,16 +105,19 @@ app.post('/', function(req,res){
       console.log('data', response.data.tracks.items[0].artists[0].name)
       for (let item of response.data.tracks.items){
         if(item.artists[0].name === artist_name){
+          musicLog.push([item.name, item.artists[0].name])
           console.log('songs matching =', item.name, 'with artist: ', item.artists[0].name)
         }
       }
-      return response.data;
+      console.log('this is music log', musicLog)
+      return musicLog;
     }catch(error){
       console.log('gettrack error', error);
     }
   }
-  getTrack(trackName, artistName)
-  res.end();
+  const response= await getTrack(trackName, artistName)
+  console.log('now response is', response)
+  res.status(200).json(response);
 });
 
 // app.post('/', function(req,res){

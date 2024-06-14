@@ -7,6 +7,7 @@ import "./App.css";
 
 
 const SongEntry = () => {
+    
     const [music, setSong] = useState({})
 
     const handleSongText = (event) => {
@@ -18,6 +19,7 @@ const SongEntry = () => {
         setSong(songInfo);
     }
     const handleSubmit = async (event) =>{
+        
         event.preventDefault();
         console.log(`song: ${music['song']}, artist: ${music['artist']}`);
         const { song, artist } = music
@@ -32,7 +34,10 @@ const SongEntry = () => {
        try {
         await axios
         .post('http://localhost:8000/', currentSong)
-        .then((data) => console.log('data is: ', 'as'))
+        .then((response) => {
+            console.log('response data',response.data);
+            setSong(response.data)
+            })
        }
         catch(error){
             console.log(error);
@@ -41,7 +46,10 @@ const SongEntry = () => {
         return false;
 
     }
-    
+    const newResultsList = []
+    for(let key in music){
+        newResultsList.push(<div>{music[key]}</div>)
+    }
      
    return (
    <div>
@@ -52,7 +60,7 @@ const SongEntry = () => {
        Artist Name <input type="text" id="artistInput" onChange={handleArtistText}></input>
        <button type="submit" id="submission">Submit</button>
        <div id="results">Results:
-        {/* {results[0]} */}
+        {newResultsList}
        </div>
        {/* <br></br>
        <button onClick={clickFunction()}>Submit</button> */}
